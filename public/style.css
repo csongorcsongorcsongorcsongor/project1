@@ -94,15 +94,52 @@ html, body {
     transform: scale(1) translateY(3px) ;
 }
 
+@keyframes alertboxin {
+  0% {transform: scale(0);}
+  100%{transform: scale(1);}
+}
+
+@keyframes alertboxout {
+  0% {transform: scale(1);}
+  100%{transform: scale(0);}
+}
+
+
 
 /*
+.alertDiv-1{
+  display: inline-block;
+  background-color: rgba(5,5,5,.4);
+  border-radius: 50px;
+  width: 500px;
+  height: 80px;
+  margin:10px;
+  max-width: 500px;
+}
+
+.alertImg-1{
+  display:inline;
+  width: 60px;
+  height: 60px;
+  float: left;
+  padding:10px;
+  border-radius: 9999px;
+}
+
+.alertText-1{
+  display:inline;
+  font-size: 30px;
+}
+*/
+/*
+
 button {
   min-width: 300px;
   outline: none;
 }
-*/
 
-/* 
+
+
 .button-33 {
     background-color: #c2fbd7;
     border-radius: 100px;
@@ -199,4 +236,6 @@ button {
       outline: 0;
       box-shadow: 0 0 0 0 rgb(45,45,45) inset, #1de9b6 0 0 0 3px;
   }
+
+
 */

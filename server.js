@@ -20,16 +20,32 @@ server.post('/register', async (req, res) => {
         }
     })
     if(oneuser){
-        res.json({'message':'már létezik ilyen user'})
+        res.status(403).json({'message':'már létezik ilyen user'})
     }
     else{
         await dbHandler.table.create({
             username:req.body.regName,
             password:req.body.regPass
         })
-        res.json({'message':'Sikeres regisztráció'})
+        res.status(200).json({'message':'Sikeres regisztráció'})
     }
     res.end()
 })
 
+server.post('/login', async(req,res)=>{
+    const oneuser = await dbHandler.table.findOne({
+        where:{
+            username:req.body.loginName,
+            password:req.body.loginPass
+        }
+    })
+    if(oneuser){
+        res.status(200).json({'message':'sikeres login'}) // 200 for success
+    }
+    else{
+        res.status(401).json({'message':'sikertelen login'}) // 401 Unauthorized for failure
+    }
+})
+
 server.listen(PORT, ()=>{console.log('Running on ' + PORT)})
+
