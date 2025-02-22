@@ -20,7 +20,7 @@ server.post('/register', async (req, res) => {
         }
     })
     if(oneuser){
-        res.status(403).json({'message':'már létezik ilyen user'})
+        res.status(403).json({'message':'Már létezik ilyen felhasználó'})
     }
     else{
         await dbHandler.table.create({
@@ -40,7 +40,7 @@ server.post('/login', async(req,res)=>{
         }
     })
     if(oneuser){
-        res.status(200).json({'message':'sikeres login'}) // 200 for success
+        res.status(200).json({'message':'Sikeres login'}) // 200 for success
     }
     else{
         res.status(401).json({'message':'sikertelen login'}) // 401 Unauthorized for failure

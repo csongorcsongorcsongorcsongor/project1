@@ -42,6 +42,7 @@ function Login() {
                 const result = JSON.parse(LoginRequest.response)
                 console.log(result.response)
                 showAlert("Sikeres bejelentkezés", "check")
+                next()
 
             } else {
                 showAlert("Sikertelen bejelentkezés", "")
@@ -111,4 +112,57 @@ function showAlert(text, type) {
             alertDiv.remove();
         }
     });
+}
+
+function next() {
+    const loading = document.createElement('div');
+    
+    // Initial styles
+    loading.style.position = "fixed";
+    loading.style.top = "0";
+    loading.style.left = "0";
+    loading.style.width = "100vw";
+    loading.style.height = "100vh";
+    loading.style.backgroundColor = "black";
+    loading.style.opacity = "0";
+    loading.style.transition = "opacity 1s ease-in-out";
+    loading.style.zIndex = "9999";
+
+    document.body.appendChild(loading);
+
+    requestAnimationFrame(() => {
+        loading.style.opacity = "1";
+        
+        setTimeout(() => {
+            // Remove gradient and set new background
+            document.body.style.background = "#002850"; // This replaces the gradient
+            document.body.style.backgroundAttachment = "fixed"; // Reset attachment
+
+            // Fade out the overlay to reveal new background
+            loading.style.opacity = "0";
+
+            // Remove overlay after fade-out
+            loading.addEventListener('transitionend', () => {
+                loading.remove();
+                loadMenu();
+            });
+        }, 1000);
+    });
+
+    const main = document.getElementById('main');
+    main.remove();
+}
+
+
+function loadMenu(){
+    const nav = document.createElement('nav')
+    const header = document.createElement('header')
+
+
+    document.body.appendChild(header)
+    header.appendChild(nav)
+
+
+
+    
 }
