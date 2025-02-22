@@ -68,15 +68,25 @@ function showAlert(text, type) {
     alertDiv.appendChild(alertText)
 
 
-    alertDiv.style.display = "inline-block";
-    alertDiv.style.backgroundColor = "rgba(5,5,5,0.4)";
-    alertDiv.style.borderRadius = "50px";
-    alertDiv.style.width = "500px";
-    alertDiv.style.height = "80px";
-    alertDiv.style.margin = "10px";
-    alertDiv.style.maxWidth = "500px"
-    alertDiv.style.animationName = "alertboxin"
-    alertDiv.style.animationDuration = "250ms"
+    // Positioning styles (add these)
+    alertDiv.style.position = "fixed";
+    alertDiv.style.top = "20px";
+    alertDiv.style.left = "50%";
+    alertDiv.style.transform = "translateX(-50%)";
+    alertDiv.style.margin = "0";
+    alertDiv.style.zIndex = "1000";
+
+    // Add these transition properties
+    alertDiv.style.transition = "opacity 250ms, transform 250ms";
+    alertDiv.style.opacity = "0";
+
+    // Remove these animation properties from original code:
+    // alertDiv.style.animationName = "alertboxin"
+    // alertDiv.style.animationDuration = "250ms"
+
+    // Trigger reflow and animate in
+    void alertDiv.offsetWidth; // Force reflow
+    alertDiv.style.opacity = "1";
 
     alertImg.src = "assets/info2.png";
     alertImg.style.display = "inline";
@@ -103,12 +113,13 @@ function showAlert(text, type) {
         alertImg.src = "assets/error.png";
     }
 
-    setTimeout(() => {
-        alertDiv.style.animationName = "alertboxout";
-    }, 2700);
+     // Modify the timeout to match new transition
+     setTimeout(() => {
+        alertDiv.style.opacity = "0";
+    }, 2500);
 
-    alertDiv.addEventListener("animationend", (event) => {
-        if (event.animationName === "alertboxout") {
+    alertDiv.addEventListener("transitionend", (event) => {
+        if (event.propertyName === "opacity" && alertDiv.style.opacity === "0") {
             alertDiv.remove();
         }
     });
@@ -154,15 +165,27 @@ function next() {
 }
 
 
-function loadMenu(){
-    const nav = document.createElement('nav')
-    const header = document.createElement('header')
+function loadMenu() {
+    const nav = document.createElement('nav');
+    const header = document.createElement('header');
+    const profileImg = document.createElement('img');
+    const menuImg = document.createElement('img');
+    const title = document.createElement('p');
 
+    profileImg.src = "assets/profile2.png";
+    menuImg.src = "assets/menu.png";
 
-    document.body.appendChild(header)
-    header.appendChild(nav)
+    // Assign classes
+    header.classList.add("header-1");
+    profileImg.classList.add("profileImg-1");
+    title.classList.add('title-2');
+    menuImg.classList.add("menuImg-1"); // New class for menuImg
 
+    // Append elements in order
+    document.body.appendChild(header);
+    header.appendChild(menuImg); // Menu image first (left side)
+    header.appendChild(title);
+    header.appendChild(profileImg); // Profile image last (right side)
 
-
-    
+    title.innerText = "asd";
 }
