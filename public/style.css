@@ -130,6 +130,7 @@ html, body {
   width: 30px;
   height: 30px;
   margin-left:auto;
+  border-radius: 9px;
 }
 
 .title-2{
@@ -143,17 +144,23 @@ html, body {
   height: 40px;
   cursor: pointer;
   margin-right: auto; /* Pushes everything else to the right */
+  border-radius: 9px;
+
 }
 
 .profileImg-1:hover{
   transition: all 250ms ;
   transform: scale(1.15) rotate(-2deg) ;
   box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+  border: rgba(255,255,255,0.3) 1px solid;
+
 }
 
 .menuImg-1:hover{
-  transition: all 250ms;
-  transform: skewX(3);
+  transition: all 250ms ;
+  transform: scale(1.15) rotate(2deg) ;
+  box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+  border: rgba(255,255,255,0.3) 1px solid;
 }
 
 /*
