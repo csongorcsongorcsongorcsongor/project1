@@ -13,7 +13,7 @@ function Register() {
         if (regreq.readyState == 4) {
             const result = JSON.parse(regreq.response);
             console.log(result.message);
-            alert(result.message);
+            showalertshit(result.message, "y");
         }
     }
 }
@@ -35,10 +35,9 @@ function Login() {
             if (LoginRequest.status == 200) {
                 const result = JSON.parse(LoginRequest.response);
                 console.log(result.response);
-                alert("Sikeres bejelentkezés");
                 next();
             } else {
-                alert("Sikertelen bejelentkezés");
+                showalertshit("Hibás jelszó/felhasználónév")
             }
         }
     }
@@ -46,7 +45,7 @@ function Login() {
 
 function next() {
     const loading = document.createElement('div');
-    
+
     // Initial styles
     loading.style.position = "fixed";
     loading.style.top = "0";
@@ -62,12 +61,12 @@ function next() {
 
     requestAnimationFrame(() => {
         loading.style.opacity = "1";
-        
+
         setTimeout(() => {
             document.body.style.background = "#002850";
             document.body.style.backgroundAttachment = "fixed";
             loadMenu();
-            
+
             requestAnimationFrame(() => {
                 loading.style.transition = "opacity 2s ease-in-out";
                 loading.style.opacity = "0";
@@ -108,4 +107,20 @@ function loadMenu() {
     header.appendChild(profileImg);
 
     title.innerText = "asd";
+}
+
+
+function showalertshit(text, type){
+    const alerttext = document.getElementById('alert')
+
+    if(type == "y"){
+        alerttext.style.color = "rgba(0,191,0,1)"
+    }
+    else{
+        alerttext.style.color = "rgba(237,67,55,1)"
+
+    }
+
+    alerttext.style.display = "inline"
+    alerttext.innerText = text
 }

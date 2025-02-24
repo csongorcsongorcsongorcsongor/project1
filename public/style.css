@@ -6,12 +6,12 @@ html, body {
 
     margin: 0;
     padding: 0;
-    height: 100vh; 
+    height: 100vh;
     width: 100vw;
-    
+
     background: linear-gradient(320deg, rgba(0,50,102,1) 0%, rgba(2,40,80,1) 7%, rgba(10,10,10,1) 100%);
     background-attachment: fixed;
-    
+
     display: block;
 }
 
@@ -20,13 +20,13 @@ html, body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center; 
-    width: auto; 
+    text-align: center;
+    width: auto;
 }
 
 .input-1, .button-1 {
-    display: block; 
-    margin: 10px auto; 
+    display: block;
+    margin: 10px auto;
 }
 
 
@@ -59,7 +59,7 @@ html, body {
     outline: 0;
     box-shadow:  #ffffff 0 0 0 3px;
 
-    
+
 }
 
 .button-1 {
@@ -87,32 +87,14 @@ html, body {
 .button-1:hover {
     transform: scale(1.1) rotate(-1deg);
     text-shadow: #FFF 3px 0 10px;
-    
+
 }
 
 .button-1:active{
     transform: scale(1) translateY(3px) ;
 }
 
-@keyframes alertboxin {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
 
-.alert-div {
-  animation: alertboxin 250ms ease-out forwards;
-}
-
-@keyframes alertboxout {
-  0% {transform: scale(1);}
-  100%{transform: scale(0);}
-}
 
 
 
@@ -136,7 +118,7 @@ html, body {
 .title-2{
   font-size: 30px;
   margin: auto;
-  
+
 }
 
 .menuImg-1 {
@@ -163,6 +145,15 @@ html, body {
   border: rgba(255,255,255,0.3) 1px solid;
 }
 
+.alert-1{
+  display: none;
+  color : rgba(237,67,55,1);
+  height: 0px;
+  transition: all 250ms;
+}
+
+
+
 /*
 .alertDiv-1{
   display: inline-block;
@@ -187,8 +178,8 @@ html, body {
   display:inline;
   font-size: 30px;
 }
-*/
-/*
+
+
 
 button {
   min-width: 300px;
@@ -215,7 +206,7 @@ button {
     -webkit-user-select: none;
     touch-action: manipulation;
   }
-  
+
   .button-33:hover {
     box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
@@ -238,13 +229,13 @@ button {
     -webkit-user-select: none;
     touch-action: manipulation;
   }
-  
+
   .button-34:hover {
     box-shadow: rgba(187, 44, 44, 0.35) 0 -25px 18px -14px inset,rgba(187, 44, 44, 0.25) 0 1px 2px,rgba(187, 44, 44, 0.25) 0 2px 4px,rgba(187, 44, 44, 0.25) 0 4px 8px,rgba(187, 44, 44, 0.25) 0 8px 16px,rgba(187, 44, 44, 0.25) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
   }
 
-  
+
 .button-35 {
     background-color: #c2f0fb;
     border-radius: 100px;
@@ -263,12 +254,12 @@ button {
     -webkit-user-select: none;
     touch-action: manipulation;
   }
-  
+
   .button-35:hover {
     box-shadow: rgba(44, 154, 187, 0.35) 0 -25px 18px -14px inset,rgba(44,154, 187,.25) 0 1px 2px,rgba(44,154, 187,.25) 0 2px 4px,rgba(44,154, 187,.25) 0 4px 8px,rgba(44,154, 187,.25) 0 8px 16px,rgba(44,154, 187,.25) 0 16px 32px;
     transform: scale(1.05) rotate(-1deg);
   }
-  
+
   .ah{
   box-shadow: inset #abacaf 0 0 0 2px;
   border: 0;
