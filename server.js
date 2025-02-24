@@ -16,7 +16,7 @@ const JWT = require('jsonwebtoken')
 server.post('/register', async (req, res) => {
     const oneuser = await dbHandler.table.findOne({
         where: {
-            username: req.body.regName 
+            username: req.body.regName
         }
     })
     if(oneuser){

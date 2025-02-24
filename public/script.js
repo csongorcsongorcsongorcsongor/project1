@@ -13,7 +13,12 @@ function Register() {
         if (regreq.readyState == 4) {
             const result = JSON.parse(regreq.response);
             console.log(result.message);
-            showalertshit(result.message, "y");
+            if(regreq.status == 403){
+            showalertshit(result.message);
+            }
+            else{
+                showalertshit(result.message, "y")
+            }
         }
     }
 }
