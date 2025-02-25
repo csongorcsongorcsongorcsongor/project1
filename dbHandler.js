@@ -4,19 +4,24 @@ const handler = new Sequelize('data','root','',{
     host:'localhost'
 })
 
-exports.table = handler.define('info',{
+exports.table = handler.define('userinfo',{
     'id':{
         type:DataTypes.INTEGER,
-        primaryKey:true,
+        autoIncrement:true,
         allowNull:false,
-        autoIncrement:true
+        primaryKey:true
     },
     'username':{
         type:DataTypes.STRING,
         allowNull:false
     },
-    'password':{
+    'jelszo':{
         type:DataTypes.STRING,
+        allowNull:false
+    },
+    'osszeg':{
+        type:DataTypes.INTEGER,
         allowNull:false
     }
 })
+

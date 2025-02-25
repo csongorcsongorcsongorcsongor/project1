@@ -25,7 +25,8 @@ server.post('/register', async (req, res) => {
     else{
         await dbHandler.table.create({
             username:req.body.regName,
-            password:req.body.regPass
+            jelszo:req.body.regPass,
+            osszeg:req.body.regAmount
         })
         res.status(200).json({'message':'Sikeres regisztráció'})
     }
@@ -36,7 +37,7 @@ server.post('/login', async(req,res)=>{
     const oneuser = await dbHandler.table.findOne({
         where:{
             username:req.body.loginName,
-            password:req.body.loginPass
+            jelszo:req.body.loginPass
         }
     })
     if(oneuser){

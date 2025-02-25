@@ -1,13 +1,16 @@
 function Register() {
     const username = document.getElementById('usernameInput').value;
     const password = document.getElementById('passwordInput').value;
+    const amount = document.getElementById('amountInput').value
 
     const regreq = new XMLHttpRequest();
     regreq.open("post", '/register');
     regreq.setRequestHeader('Content-Type', 'application/json');
     regreq.send(JSON.stringify({
         'regName': username,
-        'regPass': password
+        'regPass': password,
+        'regAmount': amount
+
     }));
     regreq.onreadystatechange = () => {
         if (regreq.readyState == 4) {
@@ -18,6 +21,7 @@ function Register() {
             }
             else{
                 showalertshit(result.message, "y")
+                gotologin()
             }
         }
     }
@@ -111,7 +115,7 @@ function loadMenu() {
     header.appendChild(title);
     header.appendChild(profileImg);
 
-    title.innerText = "asd";
+    title.innerText = "Welcome";
 }
 
 
@@ -128,4 +132,39 @@ function showalertshit(text, type){
 
     alerttext.style.display = "inline"
     alerttext.innerText = text
+}
+
+const registerButton = document.getElementById('registerButton')
+const loginButton = document.getElementById('loginButton')
+const amountInput = document.getElementById('amountInput')
+
+amountInput.style.display = "none"
+registerButton.style.display = "none"
+
+
+const registertext = document.getElementById('donthaveanaccountyet')
+registertext.addEventListener('click', function(){
+    gotoregister()
+    
+})
+
+
+function gotoregister(){
+    document.getElementById('alert').value = '';
+
+    registertext.style.display="none"
+    registerButton.style.display = "inline"
+    loginButton.style.display = "none"
+    amountInput.style.display = "block"
+}
+
+function gotologin(){
+    document.getElementById('usernameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('amountInput').value = '';
+
+    registertext.style.display = "block";
+    registerButton.style.display = "none";
+    loginButton.style.display = "inline";
+    amountInput.style.display = "none";
 }

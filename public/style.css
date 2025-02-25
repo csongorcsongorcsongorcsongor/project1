@@ -44,7 +44,7 @@ html, body {
     background: none;
     border: none;
     outline: none;
-    max-width: 190px;
+    max-width: 210px;
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 30px;
@@ -152,6 +152,20 @@ html, body {
   transition: all 250ms;
 }
 
+
+.nonmember-1{
+  color:rgba(255,255,255,0.8);
+  text-decoration: underline;
+  font-size: 14px;
+  transition: all 250ms;
+  margin: 5px;
+}
+
+.nonmember-1:hover{
+  transform: scale(1.05);
+  cursor: pointer;
+  color: white;
+}
 
 
 /*

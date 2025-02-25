@@ -11,12 +11,19 @@
 <body>
 
     <main class="main" id="main" name="main">
-        <h1 class="title-1">Cím</h1>
-        <input class="input-1" placeholder="Username"type="text" name="usernameInput" id="usernameInput"><br/>
-        <input class="input-1" placeholder="Password"  type="password" name="passwordInput" id="passwordInput"><br/>
+        <h1 class="title-1" id="title" name="title">Roulette</h1>
+        <input class="input-1" placeholder="Felhasználónév"type="text" name="usernameInput" id="usernameInput"><br/>
+        <input class="input-1" placeholder="Jelszó"  type="password" name="passwordInput" id="passwordInput"><br/>
+        <input class="input-1" placeholder="Összeg"  type="number" name="amountInput" id="amountInput"><br/>
+
         <p id="alert" class="alert-1" name="alert">a</p><br/>
-        <button class="button-1" onclick="Login()">Login</button>
-        <button class="button-1" onclick="Register()">Register</button>
+
+        <button class="button-1" id="loginButton" name="loginButton" onclick="Login()">Bejelentkezés</button>
+        <button class="button-1" id="registerButton" name="registerButton" onclick="Register()">Regisztráció</button>
+
+        <p class="nonmember-1" id="donthaveanaccountyet" name="donthaveanaccountyet">Még nem regisztrált?</p>
+
+
     </main>
 </div>
     <script src="script.js"></script>
