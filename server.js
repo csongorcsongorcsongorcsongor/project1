@@ -16,7 +16,7 @@ const JWT = require('jsonwebtoken')
 server.post('/register', async (req, res) => {
     const oneuser = await dbHandler.table.findOne({
         where: {
-            username: req.body.regName
+            username: req.body.registerUsername
         }
     })
     if(oneuser){
@@ -24,8 +24,8 @@ server.post('/register', async (req, res) => {
     }
     else{
         await dbHandler.table.create({
-            username:req.body.regName,
-            jelszo:req.body.regPass,
+            username:req.body.registerUsername,
+            jelszo:req.body.registerPassword,
             osszeg:req.body.regAmount
         })
         res.status(200).json({'message':'Sikeres regisztráció'})
@@ -36,12 +36,13 @@ server.post('/register', async (req, res) => {
 server.post('/login', async(req,res)=>{
     const oneuser = await dbHandler.table.findOne({
         where:{
-            username:req.body.loginName,
-            jelszo:req.body.loginPass
+            username:req.body.loginUsername,
+            jelszo:req.body.loginPassword
         }
     })
     if(oneuser){
-        res.status(200).json({'message':'Sikeres login'}) // 200 for success
+        const tkn = JWT.sign({'username':oneuser.username, 'osszeg':oneuser.osszeg},process.env.TOKEN,{expiresIn:'1h'})
+        res.status(200).json({'token':tkn, 'message':'Sikeres login'}) // 200 for success
     }
     else{
         res.status(401).json({'message':'sikertelen login'}) // 401 Unauthorized for failure

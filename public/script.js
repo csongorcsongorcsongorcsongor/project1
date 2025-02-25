@@ -1,14 +1,28 @@
 function Register() {
+
     const username = document.getElementById('usernameInput').value;
     const password = document.getElementById('passwordInput').value;
-    const amount = document.getElementById('amountInput').value
+    const amount = document.getElementById('amountInput').value;
 
+    // Validate username length
+    if (username.length < 3) {
+        showalertshit("Túl rövid felhasználó név");
+        return; // Exit the function if validation fails
+    }
+    else if(password.length < 8){
+        showalertshit("Tól rövid jelszó");
+        return;
+    }
+    else if(amount.length < 1){
+        showalertshit("Túl kevés összeg");
+        return;
+    }
     const regreq = new XMLHttpRequest();
     regreq.open("post", '/register');
     regreq.setRequestHeader('Content-Type', 'application/json');
     regreq.send(JSON.stringify({
-        'regName': username,
-        'regPass': password,
+        'registerUsername': username,
+        'registerPassword': password,
         'regAmount': amount
 
     }));
@@ -27,6 +41,7 @@ function Register() {
     }
 }
 
+
 function Login() {
     const username = document.getElementById('usernameInput').value;
     const password = document.getElementById('passwordInput').value;
@@ -36,14 +51,16 @@ function Login() {
     LoginRequest.open("post", '/login');
     LoginRequest.setRequestHeader('Content-Type', 'application/json');
     LoginRequest.send(JSON.stringify({
-        'loginName': username,
-        'loginPass': password
+        'loginUsername': username,
+        'loginPassword': password
     }));
     LoginRequest.onreadystatechange = () => {
         if (LoginRequest.readyState == 4) {
             if (LoginRequest.status == 200) {
                 const result = JSON.parse(LoginRequest.response);
                 console.log(result.response);
+                sessionStorage.setItem('token',result.token)
+                console.log('Sikeres token mentés')
                 next();
             } else {
                 showalertshit("Hibás jelszó/felhasználónév")
@@ -102,6 +119,9 @@ function loadMenu() {
     const menuImg = document.createElement('img');
     const title = document.createElement('p');
 
+    const usernametext = document.createElement('p')
+
+
     profileImg.src = "assets/profile2.png";
     menuImg.src = "assets/menu.png";
 
@@ -109,13 +129,40 @@ function loadMenu() {
     profileImg.classList.add("profileImg-1");
     title.classList.add('title-2');
     menuImg.classList.add("menuImg-1");
+    usernametext.classList.add("menuUser-1")
 
     document.body.appendChild(header);
     header.appendChild(menuImg);
     header.appendChild(title);
+    header.appendChild(usernametext)
     header.appendChild(profileImg);
 
-    title.innerText = "Welcome";
+    title.innerText = "Roulette";
+    usernametext.innerHTML ="név"
+
+    const datadiv = document.createElement('div')
+    const divtitle = document.createElement('p')
+    const osszeglabel = document.createElement('label')
+    const osszeg = document.createElement('p')
+
+    datadiv.classList.add("datadiv-1")
+    osszeglabel.classList.add('osszeglabel-1')
+    divtitle.classList.add('divtitle-1')
+
+    document.body.appendChild(datadiv)
+    datadiv.appendChild(divtitle)
+    datadiv.appendChild(osszeglabel)
+    datadiv.appendChild(osszeg)
+
+    osszeglabel.innerText="Összeg: "
+    divtitle.innerText = "Adatok"
+
+
+
+
+
+
+
 }
 
 
