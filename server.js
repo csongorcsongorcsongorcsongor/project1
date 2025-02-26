@@ -12,6 +12,69 @@ dbHandler.table.sync({alter:true})
 
 const JWT = require('jsonwebtoken')
 
+function Auth() {
+    return (req, res, next) => {
+        const authheader = req.headers.authorization;
+        if (!authheader || authheader.split(' ')[0] !== 'Bearer') {
+            res.status(401).json({ 'message': 'Hibás/nem létező token' });
+            return res.end();
+        } else {
+            const encryptedToken = authheader.split(' ')[1];
+            try {
+                const token = JWT.verify(encryptedToken, process.env.TOKEN);
+                req.username = token.username;
+                req.osszeg = token.osszeg;
+                next();
+            } catch (error) {
+                res.status(401).json({ 'message': error.message });
+                res.end();
+            }
+        }
+    };
+}
+
+server.get('/profil', Auth(), async (req, res) => {
+    const user = await dbHandler.table.findOne({
+        where: { username: req.username }
+    });
+
+    if (user) {
+        res.json({ 
+            'username': user.username, 
+            'osszeg': user.osszeg 
+        });
+    } else {
+        res.status(404).json({ 'message': 'Felhasználó nem található' });
+    }
+    res.end();
+});
+
+
+server.put('/save', async (req, res) => {
+    const oneuser = await dbHandler.table.findOne({
+        where: {
+            username: req.body.username
+        }
+    });
+
+    if (oneuser) {
+        const newAmount = parseFloat(oneuser.osszeg) + parseFloat(req.body.osszeg);
+        
+        await dbHandler.table.update({
+            osszeg: newAmount
+        }, {
+            where: {
+                username: req.body.username
+            }
+        });
+
+        res.json({ 'message': 'Sikeres feltöltés', 'newOsszeg': newAmount });
+    } else {
+        res.status(404).json({ 'message': 'Felhasználó nem található' });
+    }
+    res.end();
+});
+
 
 server.post('/register', async (req, res) => {
     const oneuser = await dbHandler.table.findOne({

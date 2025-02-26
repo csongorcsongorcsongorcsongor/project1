@@ -4,16 +4,13 @@ function Register() {
     const password = document.getElementById('passwordInput').value;
     const amount = document.getElementById('amountInput').value;
 
-    // Validate username length
     if (username.length < 3) {
         showalertshit("Túl rövid felhasználó név");
-        return; // Exit the function if validation fails
-    }
-    else if(password.length < 8){
+        return;
+    } else if (password.length < 8) {
         showalertshit("Tól rövid jelszó");
         return;
-    }
-    else if(amount.length < 1){
+    } else if (amount.length < 1) {
         showalertshit("Túl kevés összeg");
         return;
     }
@@ -30,10 +27,9 @@ function Register() {
         if (regreq.readyState == 4) {
             const result = JSON.parse(regreq.response);
             console.log(result.message);
-            if(regreq.status == 403){
-            showalertshit(result.message);
-            }
-            else{
+            if (regreq.status == 403) {
+                showalertshit(result.message);
+            } else {
                 showalertshit(result.message, "y")
                 gotologin()
             }
@@ -59,7 +55,7 @@ function Login() {
             if (LoginRequest.status == 200) {
                 const result = JSON.parse(LoginRequest.response);
                 console.log(result.response);
-                sessionStorage.setItem('token',result.token)
+                sessionStorage.setItem('token', result.token)
                 console.log('Sikeres token mentés')
                 next();
             } else {
@@ -72,7 +68,6 @@ function Login() {
 function next() {
     const loading = document.createElement('div');
 
-    // Initial styles
     loading.style.position = "fixed";
     loading.style.top = "0";
     loading.style.left = "0";
@@ -98,12 +93,11 @@ function next() {
                 loading.style.opacity = "0";
             });
 
-            // Ensure removal even if transitionend doesn't fire
             setTimeout(() => {
                 if (loading.parentNode) {
                     loading.remove();
                 }
-            }, 2500); // Slightly longer than the transition time
+            }, 2500);
         }, 1000);
     });
 
@@ -138,26 +132,45 @@ function loadMenu() {
     header.appendChild(profileImg);
 
     title.innerText = "Roulette";
-    usernametext.innerHTML ="név"
+    usernametext.innerHTML = "név"
 
     const datadiv = document.createElement('div')
     const divtitle = document.createElement('p')
     const osszeglabel = document.createElement('label')
     const osszeg = document.createElement('p')
 
+
+    const topup = document.createElement('label')
+    const topupinput = document.createElement('input')
+    const topupbtn = document.createElement('button')
+
+    topup.innerText = "Összeg feltöltés"
+    topup.for = "topupinput"
+    topupinput.type = "number"
+    topupbtn.innerText = "Feltöltés"
+
     datadiv.classList.add("datadiv-1")
     osszeglabel.classList.add('osszeglabel-1')
     divtitle.classList.add('divtitle-1')
+    topup.classList.add('topuptext-1')
+    topupinput.classList.add('input-2')
+    topupbtn.classList.add('button-1')
+
+    topupbtn.onclick = save;
 
     document.body.appendChild(datadiv)
     datadiv.appendChild(divtitle)
     datadiv.appendChild(osszeglabel)
     datadiv.appendChild(osszeg)
 
-    osszeglabel.innerText="Összeg: "
+    datadiv.appendChild(topup)
+    datadiv.appendChild(topupinput)
+    datadiv.appendChild(topupbtn)
+
+    osszeglabel.innerText = "Összeg: "
     divtitle.innerText = "Adatok"
 
-
+    Profil()
 
 
 
@@ -166,13 +179,12 @@ function loadMenu() {
 }
 
 
-function showalertshit(text, type){
+function showalertshit(text, type) {
     const alerttext = document.getElementById('alert')
 
-    if(type == "y"){
+    if (type == "y") {
         alerttext.style.color = "rgba(0,191,0,1)"
-    }
-    else{
+    } else {
         alerttext.style.color = "rgba(237,67,55,1)"
 
     }
@@ -190,22 +202,22 @@ registerButton.style.display = "none"
 
 
 const registertext = document.getElementById('donthaveanaccountyet')
-registertext.addEventListener('click', function(){
+registertext.addEventListener('click', function () {
     gotoregister()
-    
+
 })
 
 
-function gotoregister(){
+function gotoregister() {
     document.getElementById('alert').value = '';
 
-    registertext.style.display="none"
+    registertext.style.display = "none"
     registerButton.style.display = "inline"
     loginButton.style.display = "none"
     amountInput.style.display = "block"
 }
 
-function gotologin(){
+function gotologin() {
     document.getElementById('usernameInput').value = '';
     document.getElementById('passwordInput').value = '';
     document.getElementById('amountInput').value = '';
@@ -214,4 +226,53 @@ function gotologin(){
     registerButton.style.display = "none";
     loginButton.style.display = "inline";
     amountInput.style.display = "none";
+}
+
+function Profil() {
+    const profileReq = new XMLHttpRequest()
+    profileReq.open('get', '/profil')
+    profileReq.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
+    profileReq.send()
+    profileReq.onreadystatechange = () => {
+        if (profileReq.readyState == 4) {
+            const result = JSON.parse(profileReq.response);
+            const usernametext = document.querySelector('.menuUser-1');
+            const osszeglabel = document.querySelector('.osszeglabel-1')
+
+            osszeglabel.innerText = "Összeg: " + result.osszeg
+            usernametext.innerHTML = result.username
+
+        }
+    }
+}
+
+
+function save() {
+    const topupinput = document.querySelector('.input-2');
+    const usernametext = document.querySelector('.menuUser-1');
+
+    const savereq = new XMLHttpRequest();
+    savereq.open('put', '/save');
+    savereq.setRequestHeader('Content-Type', 'application/json');
+
+    savereq.send(JSON.stringify({
+        'username': usernametext.textContent,
+        'osszeg': topupinput.value
+    }));
+
+    savereq.onreadystatechange = () => {
+        if (savereq.readyState == 4) {
+            if (savereq.status == 200) {
+                const result = JSON.parse(savereq.response);
+                console.log(result.message);
+
+                topupinput.value = "";
+
+                // Fetch and update the displayed balance immediately
+                Profil();
+            } else {
+                console.error('Hiba történt a feltöltés közben.');
+            }
+        }
+    };
 }
