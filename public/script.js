@@ -147,6 +147,7 @@ function loadMenu() {
     topup.innerText = "Összeg feltöltés"
     topup.for = "topupinput"
     topupinput.type = "number"
+    topupinput.placeholder = "0"
     topupbtn.innerText = "Feltöltés"
 
     datadiv.classList.add("datadiv-1")

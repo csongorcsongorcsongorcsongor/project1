@@ -191,7 +191,7 @@ html, body {
 }
 
 .osszeglabel-1{
-  font-size:17px;
+  font-size:20px;
 }
 
 .input-2 {
@@ -209,9 +209,6 @@ html, body {
   transition: all 250ms;
 }
 
-.topuptext-1{
-  
-}
 
 /*
 .alertDiv-1{
