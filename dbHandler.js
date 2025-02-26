@@ -25,3 +25,10 @@ exports.table = handler.define('userinfo',{
     }
 })
 
+// New table for house info
+exports.houseTable = handler.define('houseInfo', {
+    'osszeg': {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+});
