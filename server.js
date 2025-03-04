@@ -97,7 +97,7 @@ server.post('/register', async (req, res) => {
 })
 
 server.post('/login', async(req,res)=>{
-    const oneuser = await dbHandler.table.findOne({
+    const oneuser = await dbHandler.table.findOne({ 
         where:{
             username:req.body.loginUsername,
             jelszo:req.body.loginPassword

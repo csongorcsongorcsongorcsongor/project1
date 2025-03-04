@@ -269,7 +269,6 @@ function save() {
 
                 topupinput.value = "";
 
-                // Fetch and update the displayed balance immediately
                 Profil();
             } else {
                 console.error('Hiba történt a feltöltés közben.');
