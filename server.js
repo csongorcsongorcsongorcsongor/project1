@@ -75,6 +75,33 @@ server.put('/save', async (req, res) => {
     res.end();
 });
 
+server.post('/update', async (req, res) => {
+    try {
+        const { username, money } = req.body;
+
+        if (!username || money === undefined) {
+            return res.status(400).json({ message: "Hiányzó adatok!" });
+        }
+
+        const user = await dbHandler.table.findOne({
+            where: { username }
+        });
+
+        if (user) {
+            await dbHandler.table.update(
+                { osszeg: parseFloat(money) },  // Pénz felülírása
+                { where: { username } }
+            );
+
+            res.json({ message: "Sikeres mentés!", newOsszeg: money });
+        } else {
+            res.status(404).json({ message: "Felhasználó nem található!" });
+        }
+    } catch (error) {
+        console.error("Hiba a pénz mentésekor:", error);
+        res.status(500).json({ message: "Szerverhiba történt!" });
+    }
+});
 
 server.post('/register', async (req, res) => {
     const oneuser = await dbHandler.table.findOne({
@@ -105,10 +132,10 @@ server.post('/login', async(req,res)=>{
     })
     if(oneuser){
         const tkn = JWT.sign({'username':oneuser.username, 'osszeg':oneuser.osszeg},process.env.TOKEN,{expiresIn:'1h'})
-        res.status(200).json({'token':tkn, 'message':'Sikeres login'}) // 200 for success
+        res.status(200).json({'token':tkn, 'message':'Sikeres login', 'osszeg':oneuser.osszeg}) 
     }
     else{
-        res.status(401).json({'message':'sikertelen login'}) // 401 Unauthorized for failure
+        res.status(401).json({'message':'sikertelen login'}) 
     }
 })
 
