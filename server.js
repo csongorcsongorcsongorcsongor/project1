@@ -10,6 +10,19 @@ const PORT = process.env.PORT
 
 dbHandler.table.sync({alter:true})
 
+// Create admin
+dbHandler.table.findOrCreate({
+    where: { username: 'admin' },
+    defaults: {
+        jelszo: process.env.ADMIN_PASSWORD,
+        osszeg: 0
+    }
+}).then(([user, created]) => {
+    if (created) console.log('Admin user created');
+}).catch(err => {
+    console.error('Error creating admin:', err);
+});
+
 const JWT = require('jsonwebtoken')
 
 function Auth() {
@@ -138,6 +151,34 @@ server.post('/login', async(req,res)=>{
         res.status(401).json({'message':'sikertelen login'}) 
     }
 })
+
+server.get('/allusers', Auth(), async (req, res) => {
+    if (req.username !== 'admin') {
+        return res.status(403).json({ message: 'Hozzáférés megtagadva' });
+    }
+    try {
+        const allUsers = await dbHandler.table.findAll({
+            attributes: ['username', 'osszeg']
+        });
+        res.json(allUsers);
+    } catch (error) {
+        res.status(500).json({ message: 'Szerverhiba' });
+    }
+});
+
+server.delete('/deleteUser', Auth(), async (req, res) => {
+    if (req.username !== 'admin') {
+        return res.status(403).json({ message: 'Hozzáférés megtagadva' });
+    }
+    
+    try {
+        const { username } = req.body;
+        await dbHandler.table.destroy({ where: { username } });
+        res.json({ message: 'Felhasználó törölve' });
+    } catch (error) {
+        res.status(500).json({ message: 'Hiba a törlés során' });
+    }
+});
 
 server.listen(PORT, ()=>{console.log('Running on ' + PORT)})
 

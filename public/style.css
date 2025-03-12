@@ -132,6 +132,8 @@ html, body {
   transform: scale(1.15) rotate(-2deg) ;
   box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
   border: rgba(255,255,255,0.3) 1px solid;
+  cursor: pointer;
+
 
 }
 
@@ -205,3 +207,69 @@ html, body {
   color: #fff;
   transition: all 250ms;
 }
+
+
+/* Admin user list styles */
+.user-list {
+  margin: 20px;
+  padding: 10px;
+  background-color: rgba(0, 20, 50, 0.8);
+  border-radius: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.user-list h3 {
+  margin: 0 0 10px 0;
+  color: #fff;
+}
+
+.user-item {
+  padding: 8px;
+  margin: 5px 0;
+  background-color: rgba(0, 40, 80, 0.9);
+  border-radius: 5px;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #ff4444 !important;
+  margin-left: 15px;
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  transition: all 0.3s ease !important;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000 !important;
+  transform: scale(1.05) !important;
+}
+
+.user-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin: 5px 0;
+  background-color: rgba(0, 40, 80, 0.9);
+  border-radius: 5px;
+}
+.delete-btn-img {
+  cursor: pointer;
+  margin-left: 15px;
+  width: 25px;
+  height: 25px;
+  transition: all 250ms;
+  padding: 3px;
+}
+
+.delete-btn-img:hover {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0px 0px 5px 0px rgba(255,0,0,0.5);
+  border: 1px solid rgba(255,0,0,0.3);
+}
+
+.user-item span {
+  flex-grow: 1;
+  text-align: left;
+}
+

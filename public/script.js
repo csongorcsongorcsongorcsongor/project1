@@ -119,6 +119,9 @@ function loadMenu() {
     profileImg.src = "assets/profile2.png";
     menuImg.src = "assets/menu.png";
 
+    profileImg.onclick = logout; 
+
+
     header.classList.add("header-1");
     profileImg.classList.add("profileImg-1");
     title.classList.add('title-2');
@@ -230,21 +233,61 @@ function gotologin() {
 }
 
 function Profil() {
-    const profileReq = new XMLHttpRequest()
-    profileReq.open('get', '/profil')
-    profileReq.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'))
-    profileReq.send()
+    const profileReq = new XMLHttpRequest();
+    profileReq.open('get', '/profil');
+    profileReq.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    profileReq.send();
     profileReq.onreadystatechange = () => {
         if (profileReq.readyState == 4) {
             const result = JSON.parse(profileReq.response);
             const usernametext = document.querySelector('.menuUser-1');
-            const osszeglabel = document.querySelector('.osszeglabel-1')
+            const osszeglabel = document.querySelector('.osszeglabel-1');
 
-            osszeglabel.innerText = "Összeg: " + result.osszeg
-            usernametext.innerHTML = result.username
+            // Display "Admin" instead of "admin"
+            usernametext.innerHTML = result.username === 'admin' ? 'Admin' : result.username;
+            osszeglabel.innerText = "Összeg: " + result.osszeg;
 
+            // Fetch all users if admin
+            if (result.username === 'admin') {
+                const allUsersReq = new XMLHttpRequest();
+                allUsersReq.open('get', '/allusers');
+                allUsersReq.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+                allUsersReq.send();
+                allUsersReq.onreadystatechange = () => {
+                    if (allUsersReq.readyState === 4 && allUsersReq.status === 200) {
+                        const users = JSON.parse(allUsersReq.response);
+                        const userListDiv = document.createElement('div');
+                        userListDiv.classList.add('user-list');
+
+                        const title = document.createElement('h3');
+                        title.textContent = 'Összes felhasználó';
+                        userListDiv.appendChild(title);
+
+                        users.forEach(user => {
+                            const userDiv = document.createElement('div');
+                            userDiv.classList.add('user-item');
+
+                            const userText = document.createElement('span');
+                            userText.textContent = `${user.username}, ${user.osszeg}`;
+
+                            const deleteBtn = document.createElement('img');
+                            deleteBtn.src = "assets/trash.png";
+                            deleteBtn.classList.add('delete-btn-img', 'profileImg-1'); // Reuse profile image styles
+                            deleteBtn.title = "Felhasználó törlése";
+                            deleteBtn.onclick = () => deleteUser(user.username);
+
+                            userDiv.appendChild(userText);
+                            userDiv.appendChild(deleteBtn);
+                            userListDiv.appendChild(userDiv);
+                        });
+
+                        const datadiv = document.querySelector('.datadiv-1');
+                        datadiv.insertBefore(userListDiv, datadiv.children[3]);
+                    }
+                };
+            }
         }
-    }
+    };
 }
 
 
@@ -275,4 +318,37 @@ function save() {
             }
         }
     };
+}
+
+
+document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        Login();
+    }
+});
+
+function deleteUser(username) {
+    if (!confirm(`Biztosan törölni szeretnéd ${username} felhasználót?`)) return;
+
+    const deleteReq = new XMLHttpRequest();
+    deleteReq.open('delete', '/deleteUser');
+    deleteReq.setRequestHeader('Content-Type', 'application/json');
+    deleteReq.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+
+    deleteReq.send(JSON.stringify({
+        username
+    }));
+
+    deleteReq.onreadystatechange = () => {
+        if (deleteReq.readyState === 4 && deleteReq.status === 200) {
+            // Refresh user list after deletion
+            document.querySelector('.user-list').remove();
+            Profil();
+        }
+    };
+}
+
+function logout() {
+    sessionStorage.clear();
+    window.location.reload();
 }
